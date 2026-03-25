@@ -1,0 +1,41 @@
+# Git files
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+build/
+
+# Documentation
+README.md
+screenshot.png
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# WordPress
+wp-config.php
+wp-content/plugins/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup/
+
+# Logs
+*.log

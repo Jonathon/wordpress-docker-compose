@@ -1,0 +1,65 @@
+services:
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wordpress-oceanwp
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress_password
+      WORDPRESS_DEBUG: 'false'
+    volumes:
+      - wordpress_data:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - oceanwp-network
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: wordpress-mysql
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - oceanwp-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:5.2-apache
+    container_name: wordpress-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: wordpress
+      PMA_PASSWORD: wordpress_password
+    ports:
+      - "8081:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - oceanwp-network
+    restart: unless-stopped
+
+volumes:
+  wordpress_data:
+  mysql_data:
+
+networks:
+  oceanwp-network:
+    driver: bridge
