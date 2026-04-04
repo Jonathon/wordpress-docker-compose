@@ -9,7 +9,7 @@ services:
     environment:
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
-      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress_password}
       WORDPRESS_DEBUG: ${WP_DEBUG:-false}
       WORDPRESS_CONFIG_EXTRA: |
